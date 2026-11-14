@@ -25,6 +25,11 @@ def gauss(A, b, pivoteo):
     max_actual = max_inicial
     mult_max = 0.0
 
+    L = []
+    for i in range(n):
+        L.append([0.0] * n)
+    perm = list(range(n))
+
     if pivoteo:
         s = []
         for i in range(n):
@@ -55,11 +60,15 @@ def gauss(A, b, pivoteo):
                 A[k], A[fila_p] = A[fila_p], A[k]
                 b[k], b[fila_p] = b[fila_p], b[k]
                 s[k], s[fila_p] = s[fila_p], s[k]
+                perm[k], perm[fila_p] = perm[fila_p], perm[k]
+                for j in range(k):
+                    L[k][j], L[fila_p][j] = L[fila_p][j], L[k][j]
                 cont["intercambios"] += 1
 
         for i in range(k + 1, n):
             m = A[i][k] / A[k][k]
             cont["mult_div"] += 1
+            L[i][k] = m
             if abs(m) > mult_max:
                 mult_max = abs(m)
 
@@ -106,6 +115,8 @@ def gauss(A, b, pivoteo):
     info = {
         "x": x,
         "U": A,
+        "L": L,
+        "perm": perm,
         "contadores": cont,
         "pasos": pasos,
         "traza": traza,
@@ -113,3 +124,25 @@ def gauss(A, b, pivoteo):
         "crecimiento": max_actual / max_inicial,
     }
     return info
+
+
+def resolver(info, rhs):
+    n = len(rhs)
+    L = info["L"]
+    U = info["U"]
+    perm = info["perm"]
+
+    y = [0.0] * n
+    for i in range(n):
+        suma = rhs[perm[i]]
+        for j in range(i):
+            suma = suma - L[i][j] * y[j]
+        y[i] = suma
+
+    x = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        suma = y[i]
+        for j in range(i + 1, n):
+            suma = suma - U[i][j] * x[j]
+        x[i] = suma / U[i][i]
+    return x
