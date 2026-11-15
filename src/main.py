@@ -1,5 +1,8 @@
 import os
+import mpmath as mp
 from gauss import gauss
+from conteo import escribir_conteo
+from verificacion import leer_exactos, escribir_verificacion
 
 carpeta = os.path.dirname(os.path.abspath(__file__))
 raiz = os.path.dirname(carpeta)
@@ -7,20 +10,16 @@ ruta_a = os.path.join(raiz, "datos", "matriz_a.csv")
 ruta_b = os.path.join(raiz, "datos", "vector_b.csv")
 ruta_resultados = os.path.join(raiz, "resultados")
 
+A_exacta, b_exacto = leer_exactos(ruta_a, ruta_b)
 A = []
-for linea in open(ruta_a):
-    linea = linea.strip()
-    if linea != "":
-        fila = []
-        for valor in linea.split(","):
-            fila.append(float(valor))
-        A.append(fila)
-
+for fila in A_exacta:
+    nueva = []
+    for valor in fila:
+        nueva.append(float(valor))
+    A.append(nueva)
 b = []
-for linea in open(ruta_b):
-    linea = linea.strip()
-    if linea != "":
-        b.append(float(linea))
+for valor in b_exacto:
+    b.append(float(valor))
 
 print("Matriz leida:", len(A), "x", len(A[0]))
 print("Vector b leido:", len(b), "valores")
@@ -56,13 +55,15 @@ for nombre, corrida in (("SIN PIVOTEO", sin), ("PIVOTEO PARCIAL ESCALADO", con))
     archivo.write("\n")
 archivo.close()
 
+escribir_conteo(os.path.join(ruta_resultados, "conteo_flops.md"), sin, con)
+
+x_refinada, digitos = escribir_verificacion(os.path.join(ruta_resultados, "residuo.txt"), A, b, sin, con, A_exacta, b_exacto)
+
 archivo = open(os.path.join(ruta_resultados, "solucion.csv"), "w")
-archivo.write("incognita,valor\n")
-i = 1
-for valor in con["x"]:
-    archivo.write("x" + str(i) + "," + repr(valor) + "\n")
-    i = i + 1
+archivo.write("incognita,valor,digitos_correctos\n")
+for i in range(len(x_refinada)):
+    archivo.write("x" + str(i + 1) + "," + mp.nstr(x_refinada[i], digitos[i]) + "," + str(digitos[i]) + "\n")
 archivo.close()
 
 print()
-print("Listo: se escribieron traza_eliminacion.txt y solucion.csv en resultados/")
+print("Listo: se escribieron traza_eliminacion.txt, conteo_flops.md, residuo.txt y solucion.csv en resultados/")
