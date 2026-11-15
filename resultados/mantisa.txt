@@ -1,0 +1,33 @@
+# Analisis de mantisa y pivoteo
+
+Mantisa de un float de 64 bits: 53 bits. Unidad de redondeo u = 2^-53 = 1.110e-16
+Error de referencia: solucion refinada en precision extendida (verificacion.py).
+
+## Comparacion de las dos corridas
+
+| Medida | Sin pivoteo | Pivoteo escalado |
+|---|---|---|
+| Multiplicador maximo | 2.753e+13 | 2.466e+09 |
+| log2 del multiplicador maximo (bits) | 44.6 | 31.2 |
+| Factor de crecimiento | 2.641e+03 | 1.783e+00 |
+| log2 del factor de crecimiento (bits) | 11.4 | 0.8 |
+| Error relativo final (norma 2) | 2.38e-10 | 2.702e-13 |
+| Error relativo maximo por incognita | 7.506e-8 | 8.536e-11 |
+| Bits perdidos en el resultado: log2(error / u) | 21.0 | 11.2 |
+| Bits de mantisa que se conservan | 32.0 | 41.8 |
+
+## Por que el pivote a(1,1) es inaceptable
+
+- |a(1,1)| = 1.341e-08
+- Mayor |a(i,1)| de la columna 1 = 3.690e+05 (fila 6)
+- Cociente = 2.753e+13, que equivale a 44.6 bits
+- Dividir por a(1,1) multiplica por ese cociente cualquier error de redondeo de la fila pivote.
+
+## Informacion que se destruye en el paso 1
+
+Se compara el termino m*a(p,j) que se resta contra el dato a(i,j) que se quiere conservar. Si el termino es 2^k veces mayor, al restarlo quedan solo 53 - k bits del dato.
+
+| Pivote del paso 1 | k en b (bits) | Bits de b que quedan | k en A (bits) | Bits de A que quedan |
+|---|---|---|---|---|
+| a(1,1), sin pivoteo | 15.8 | 37.2 | 18.1 | 34.9 |
+| Fila 8, pivoteo escalado | 3.2 | 49.8 | 6.1 | 46.9 |
