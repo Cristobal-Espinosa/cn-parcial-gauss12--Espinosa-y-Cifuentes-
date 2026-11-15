@@ -3,6 +3,7 @@ import mpmath as mp
 from gauss import gauss
 from conteo import escribir_conteo
 from verificacion import leer_exactos, escribir_verificacion
+from mantisa import escribir_mantisa
 
 carpeta = os.path.dirname(os.path.abspath(__file__))
 raiz = os.path.dirname(carpeta)
@@ -59,6 +60,8 @@ escribir_conteo(os.path.join(ruta_resultados, "conteo_flops.md"), sin, con)
 
 x_refinada, digitos = escribir_verificacion(os.path.join(ruta_resultados, "residuo.txt"), A, b, sin, con, A_exacta, b_exacto)
 
+escribir_mantisa(os.path.join(ruta_resultados, "mantisa.txt"), A, b, sin, con, x_refinada)
+
 archivo = open(os.path.join(ruta_resultados, "solucion.csv"), "w")
 archivo.write("incognita,valor,digitos_correctos\n")
 for i in range(len(x_refinada)):
@@ -66,4 +69,4 @@ for i in range(len(x_refinada)):
 archivo.close()
 
 print()
-print("Listo: se escribieron traza_eliminacion.txt, conteo_flops.md, residuo.txt y solucion.csv en resultados/")
+print("Listo: se escribieron traza_eliminacion.txt, conteo_flops.md, residuo.txt, mantisa.txt y solucion.csv en resultados/")
