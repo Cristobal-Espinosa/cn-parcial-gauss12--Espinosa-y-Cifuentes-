@@ -65,7 +65,7 @@ escribir_mantisa(os.path.join(ruta_resultados, "mantisa.txt"), A, b, sin, con, x
 archivo = open(os.path.join(ruta_resultados, "solucion.csv"), "w")
 archivo.write("incognita,valor,digitos_correctos\n")
 for i in range(len(x_refinada)):
-    archivo.write("x" + str(i + 1) + "," + mp.nstr(x_refinada[i], digitos[i]) + "," + str(digitos[i]) + "\n")
+    archivo.write("x" + str(i + 1) + "," + mp.nstr(x_refinada[i], digitos[i], strip_zeros=False) + "," + str(digitos[i]) + "\n")
 archivo.close()
 
 print()
