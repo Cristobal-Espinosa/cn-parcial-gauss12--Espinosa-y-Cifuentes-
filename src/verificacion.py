@@ -106,6 +106,39 @@ def escribir_verificacion(ruta, A_float, b_float, sin, con, A, b):
         texto = texto + "| x" + str(i + 1) + " | " + str(d_sin[i]) + " | " + str(d_con[i]) + " |\n"
     texto = texto + "\n"
 
+    # condicionamiento: kappa estimado con numpy (solo estimacion)
+    A_np = np.array(A_float)
+    sigmas = np.linalg.svd(A_np, compute_uv=False)
+    kappa = np.linalg.cond(A_np, 2)
+    eps = 2.0 ** -52
+    cota = kappa * eps
+    if cota < 1:
+        digitos_cota = int(math.floor(-math.log10(cota)))
+    else:
+        digitos_cota = 0
+
+    # lo mismo con las filas equilibradas (cada fila dividida por su mayor valor absoluto)
+    escalas = np.abs(A_np).max(axis=1)
+    A_eq = A_np / escalas[:, None]
+    kappa_eq = np.linalg.cond(A_eq, 2)
+    cota_eq = kappa_eq * eps
+    if cota_eq < 1:
+        digitos_cota_eq = int(math.floor(-math.log10(cota_eq)))
+    else:
+        digitos_cota_eq = 0
+
+    texto = texto + "## Condicionamiento y digitos recuperables\n\n"
+    texto = texto + "- Mayor valor singular: %.3e\n" % sigmas[0]
+    texto = texto + "- Menor valor singular: %.3e\n" % sigmas[-1]
+    texto = texto + "- kappa2(A) estimado con numpy: %.3e\n" % kappa
+    texto = texto + "- epsilon de maquina 2^-52: %.3e\n" % eps
+    texto = texto + "- Cota del error relativo, kappa * epsilon: %.3e\n" % cota
+    texto = texto + "- Digitos recuperables que indica la cota: " + str(digitos_cota) + "\n"
+    texto = texto + "- kappa2 con filas equilibradas: %.3e\n" % kappa_eq
+    texto = texto + "- Cota con filas equilibradas: %.3e (%d digitos)\n" % (cota_eq, digitos_cota_eq)
+    texto = texto + "- Digitos correctos reales sin pivoteo (minimo): " + str(min(d_sin)) + "\n"
+    texto = texto + "- Digitos correctos reales con pivoteo escalado (minimo): " + str(min(d_con)) + "\n\n"
+
     # control con la biblioteca: solo para comparar, no reemplaza la implementacion propia
     x_lib = np.linalg.solve(np.array(A_float), np.array(b_float))
     dif = 0.0

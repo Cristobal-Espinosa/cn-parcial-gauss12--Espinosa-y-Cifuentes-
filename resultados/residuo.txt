@@ -37,6 +37,19 @@ Con una pasada el residuo baja.
 | x11 | 8 | 11 |
 | x12 | 9 | 12 |
 
+## Condicionamiento y digitos recuperables
+
+- Mayor valor singular: 2.258e+06
+- Menor valor singular: 7.320e-08
+- kappa2(A) estimado con numpy: 3.085e+13
+- epsilon de maquina 2^-52: 2.220e-16
+- Cota del error relativo, kappa * epsilon: 6.849e-03
+- Digitos recuperables que indica la cota: 2
+- kappa2 con filas equilibradas: 8.132e+03
+- Cota con filas equilibradas: 1.806e-12 (11 digitos)
+- Digitos correctos reales sin pivoteo (minimo): 7
+- Digitos correctos reales con pivoteo escalado (minimo): 10
+
 ## Control con numpy.linalg.solve
 
 Mayor diferencia relativa entre la solucion propia (pivoteo escalado) y numpy: 7.307e-12
