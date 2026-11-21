@@ -4,8 +4,7 @@ Programa en Python que resuelve un sistema lineal denso A x = b de 12 incógnita
 
 ## Autoría y asignatura
 
-Cristobal Espinosa y Steven Cifuentes · Computación Numérica (INF-321), Ingeniería Civil Informática, Universidad Católica del Maule · Prueba Parcial 3 "El pivote", noviembre de 2026
-
+Cristobal Espinosa y Steven Cifuentes · Computación Numérica (INF-321), Ingeniería Civil Informática, Universidad Católica del Maule · Sección 2 · Prueba Parcial 3 "El pivote", noviembre de 2026
 ## Requisitos
 
 - Python 3.10 o superior (probado con 3.11).

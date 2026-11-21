@@ -184,13 +184,12 @@ python src/main.py
 
 Se usó **Claude (Anthropic)** como asistente, tal como permite el enunciado, para lo siguiente:
 
-- Explicar el flujo de trabajo con Git (ramas, merges, commits).
 - Escribir el código inicial de `gauss.py`, `main.py`, `mantisa.py`, `conteo.py` y `verificacion.py`. Para el bloque de condicionamiento de `verificacion.py`, uno de los integrantes usó además otro asistente de IA, y el resultado se revisó y ajustó (por ejemplo, se cambió u por ε = 2⁻⁵² para coincidir con el enunciado).
 - Calcular los datos de condicionamiento y de la sección 2.
-- Redactar un borrador de este informe y del `readme.md` a partir de los archivos de `resultados/`. El `readme.md` fue revisado y editado por uno de los integrantes.
-
 Lo verificado por los autores: la ejecución del código en su computador y desde un clon limpio de `main`, y la lectura de los resultados generados. Con ayuda de la IA se verificaron, además, los datos de entrada contra los valores del enunciado, la solución contra una referencia independiente de `mpmath`, y el conteo de 1486 flops contra la cota.
 
+### Aclaración puntual
+- Los commits realizados por mister_noah pertenecen a Steven Cifuentes.  
 ### Referencias
 
 - Anderson, E. et al. (1999). *LAPACK Users' Guide*, 3.ª ed. SIAM.
