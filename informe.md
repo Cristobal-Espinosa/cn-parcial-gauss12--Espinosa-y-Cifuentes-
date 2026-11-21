@@ -10,7 +10,7 @@
 | Evaluación | Prueba Parcial "El pivote" |
 | Sección | 2 |
 | Fecha | 20 Noviembre de 2026 |
-| Repositorio | https://github.com/Cristobal-Espinosa/cn-parcial-gauss12--Espinosa-y-Cifuentes-  |
+| Repositorio | https://github.com/Cristobal-Espinosa/cn-parcial-gauss12-Espinosa-y-Cifuentes-  |
 
 ## 2. Planteamiento
 
